@@ -3,7 +3,7 @@ const User = require('../../models/user');
 
 const sendVerificationEmail = require('./sendEmailCode');
 
-// Register
+
 const register = (req, res) => {
   let {firstName, lastName, email} = req.body;
   // remove white-space
@@ -49,7 +49,7 @@ const register = (req, res) => {
           lastName,
           email,
           verified: false,
-          token: ''
+          online: false
         });
         newUser.save().then(result => {
           // Handle account verification

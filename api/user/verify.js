@@ -1,3 +1,6 @@
+const jwt = require('jsonwebtoken');
+const SECRET_KEY = process.env.SECRET_KEY || 'lalala this isnt secure';
+
 // User & UserVerification model for our mongoDB Database
 const User = require('../../models/user');
 const UserVerification = require('../../models/userVerification')
@@ -24,11 +27,25 @@ const verify = (req, res) => {
         data: null
       })
     } else if (data.length && (loginCode === data[0].loginCode)) {
-      User.updateOne({email}, {verified: true}).then(() => {
-        res.status(200).json({
-          error: false,
-          message: "Verification was successful.",
-          data: {accessToken: 'test'}
+      User.updateOne({email}, {verified: true, online: true}).then(() => {
+        // Finding the user in the db just so we can get his _id variable 
+        User.find({email}).then(data => {
+          if (data.length) {
+            const _id = data[0]._id;
+            const accessToken = jwt.sign({ _id }, SECRET_KEY);
+            res.status(200).json({
+              error: false,
+              message: "Verification was successful.",
+              data: {accessToken}
+            })
+          }
+        }).catch(err => {
+          console.log(err);
+          res.status(500).json({
+            error: true,
+            message: "An internal error occured. Please try again.",
+            data: null
+          })
         })
       // delete verification because user verified properly so no need to keep the verification.
       // user doesnt need to be informed, that's why we're not doing anything in case it succeed or fail.

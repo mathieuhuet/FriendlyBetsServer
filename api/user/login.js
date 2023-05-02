@@ -3,7 +3,7 @@ const User = require('../../models/user');
 
 const sendVerificationEmail = require('./sendEmailCode');
 
-// Login
+
 const login = (req, res) => {
   let {email} = req.body;
   // remove white-space
@@ -16,13 +16,13 @@ const login = (req, res) => {
     });
   } else {
     User.find({email}).then(data => {
-      // if (data) === user found
+      // if (data.length) === user found
       if (data.length) {
         sendVerificationEmail(data[0], res);
       } else {
         res.status(403).json({
           error: true,
-          message: "This user does not exist, please create an account.",
+          message: "There's no user with this email, please create an account.",
           data: null
         });
       }

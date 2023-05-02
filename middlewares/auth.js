@@ -5,6 +5,7 @@ const SECRET_KEY = process.env.SECRET_KEY || 'lalala this isnt secure';
 const authMiddleware = async (req, res, next) => {
   // extract token from auth headers
   const authHeaders = req.headers['authorization'];
+  console.log(req.headers);
   if (!authHeaders) {
     return res.status(403).json({
       error: true,
@@ -13,7 +14,6 @@ const authMiddleware = async (req, res, next) => {
     });
   }
   const accessToken = authHeaders.split(' ')[1];
-
   try {
     // verify & decode token payload,
     const { _id } = jwt.verify(accessToken, SECRET_KEY);

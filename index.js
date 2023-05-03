@@ -9,7 +9,7 @@ const User = require('./api/user/router');
 // Cors policy
 const cors = require("cors");
 // Getting local IP
-const getLocalIp = require('./services/getLocalIp');
+const getLocalIp = require('./utils/getLocalIp');
 
 const ip = getLocalIp();
 const app = require('express')();

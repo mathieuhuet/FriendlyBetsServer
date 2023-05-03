@@ -1,5 +1,6 @@
 // User & UserVerification model for our mongoDB Database
 const User = require('../../models/user');
+const getRandomColor = require('../../utils/getRandomColor');
 
 const sendVerificationEmail = require('./sendEmailCode');
 
@@ -44,10 +45,15 @@ const register = (req, res) => {
           data: null
         });
       } else {
+        const color = getRandomColor();
+        const backgroundColor = getRandomColor(color);
         const newUser = new User({
           firstName,
           lastName,
           email,
+          profileIconColor: color,
+          profileIconBackgroundColor: backgroundColor,
+          profileIconPolice: 'normal',
           verified: false,
           online: false
         });

@@ -10,7 +10,7 @@ const getRandomColor = (dontMatch = undefined) => {
     case 1: {
       if (dontMatch === 'lightBlue') {
         return 'gray'
-      }zzz
+      }
       return 'lightBlue'
     }
     case 2: {

@@ -35,7 +35,25 @@ const register = (req, res) => {
       message: "Invalid user email address",
       data: null
     });
+  } else if (lastName.length > 20) {
+    res.status(400).json({
+      error: true,
+      message: "Last name too long (max: 20 characters)",
+      data: null
+    });
+  } else if (firstName.length > 20) {
+    res.status(400).json({
+      error: true,
+      message: "First name too long (max: 20 characters)",
+      data: null
+    });
   } else {
+    // Capitalize first letter of both names
+    firstName = firstName.charAt(0).toUpperCase() + firstName.slice(1);
+    if (lastName) {
+      lastName = lastName.charAt(0).toUpperCase() + lastName.slice(1);
+    }
+    console.log(firstName, lastName);
     // Checking if user already exists
     User.find({email}).then(result => {
       if (result.length) {

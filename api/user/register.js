@@ -53,7 +53,6 @@ const register = (req, res) => {
     if (lastName) {
       lastName = lastName.charAt(0).toUpperCase() + lastName.slice(1);
     }
-    console.log(firstName, lastName);
     // Checking if user already exists
     User.find({email}).then(result => {
       if (result.length) {
@@ -63,13 +62,12 @@ const register = (req, res) => {
           data: null
         });
       } else {
-        const color = getRandomColor();
-        const backgroundColor = getRandomColor(color);
+        const backgroundColor = getRandomColor();
         const newUser = new User({
           firstName,
           lastName,
           email,
-          profileIconColor: color,
+          profileIconColor: 'white',
           profileIconBackgroundColor: backgroundColor,
           profileIconPolice: 'normal',
           verified: false,

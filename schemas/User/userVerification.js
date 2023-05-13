@@ -8,6 +8,6 @@ const userVerificationSchema = new Schema({
   expiresAt: Number,
 });
 
-const UserVerification = mongoose.model('UserVerification', userVerificationSchema);
 
-module.exports = UserVerification;
+
+module.exports = userVerificationSchema;

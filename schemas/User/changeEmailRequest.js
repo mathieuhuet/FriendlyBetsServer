@@ -9,6 +9,5 @@ const changeEmailRequestSchema = new Schema({
   expiresAt: Number,
 });
 
-const ChangeEmailRequest = mongoose.model('ChangeEmailRequest', changeEmailRequestSchema);
 
-module.exports = ChangeEmailRequest;
+module.exports = changeEmailRequestSchema;

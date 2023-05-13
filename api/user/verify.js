@@ -1,9 +1,9 @@
 const jwt = require('jsonwebtoken');
 const SECRET_KEY = process.env.SECRET_KEY || 'lalala this isnt secure';
+const mongoUserDB = require('../../config/mongoUser');
 
-// User & UserVerification model for our mongoDB Database
-const User = require('../../models/user');
-const UserVerification = require('../../models/userVerification')
+const UserVerification = mongoUserDB.model('userVerification', require('../../schemas/User/userVerification'));
+const User = mongoUserDB.model('users', require('../../schemas/User/user'));
 
 
 // Verify code sent by the user for a successful login.

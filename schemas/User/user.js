@@ -12,6 +12,5 @@ const userSchema = new Schema({
   online: Boolean
 });
 
-const User = mongoose.model('User', userSchema);
 
-module.exports = User;
+module.exports = userSchema;

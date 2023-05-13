@@ -1,6 +1,7 @@
-// User & ChangeEmailRequest model for our mongoDB Database
-const User = require('../../models/user');
-const ChangeEmailRequest = require('../../models/changeEmailRequest');
+const mongoUserDB = require('../../config/mongoUser');
+
+const ChangeEmailRequest = mongoUserDB.model('changeEmail', require('../../schemas/User/changeEmailRequest'));
+const User = mongoUserDB.model('users', require('../../schemas/User/user'));
 
 
 // Verify code sent by the user for a successful login.

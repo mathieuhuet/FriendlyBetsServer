@@ -11,6 +11,4 @@ const betSchema = new Schema({
   betExtraText: String,
 });
 
-const Bet = mongoose.model('Bet', betSchema, 'Bets');
-
-module.exports = Bet;
+module.exports = betSchema;

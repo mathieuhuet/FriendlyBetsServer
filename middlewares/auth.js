@@ -1,5 +1,6 @@
 const jwt = require('jsonwebtoken');
-const User = require('../models/user');
+const mongoUserDB = require('../config/mongoUser');
+const User = mongoUserDB.model('users', require('../schemas/User/user'));
 const SECRET_KEY = process.env.SECRET_KEY || 'lalala this isnt secure';
 
 const authMiddleware = async (req, res, next) => {

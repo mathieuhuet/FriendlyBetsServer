@@ -1,6 +1,6 @@
-// User & UserVerification model for our mongoDB Database
-const User = require('../../models/user');
+const mongoUserDB = require('../../config/mongoUser');
 
+const User = mongoUserDB.model('users', require('../../schemas/User/user'));
 
 const changeIcon = (req, res) => {
   let {profileIconColor,

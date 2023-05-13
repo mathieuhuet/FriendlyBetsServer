@@ -1,6 +1,6 @@
-// Bet model for our mongoDB Database
-const Bet = require('../../models/bet');
+const mongoBetDB = require('../../config/mongoBet');
 
+const Bet = mongoBetDB.model('users', require('../../schemas/Bet/bet'));
 
 
 const makeABet = (req, res) => {

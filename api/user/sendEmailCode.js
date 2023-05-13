@@ -2,8 +2,9 @@
 const bcrypt = require('bcrypt');
 const { v4: uuidv4 } = require('uuid');
 
-// UserVerification model for our mongoDB Database
-const UserVerification = require('../../models/userVerification')
+const mongoUserDB = require('../../config/mongoUser');
+
+const UserVerification = mongoUserDB.model('userVerification', require('../../schemas/User/userVerification'));
 
 // Email handler
 const nodemailer = require('nodemailer');

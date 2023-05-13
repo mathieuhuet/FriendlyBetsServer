@@ -11,6 +11,6 @@ const betSchema = new Schema({
   betExtraText: String,
 });
 
-const Bet = mongoose.model('Bet', betSchema);
+const Bet = mongoose.model('Bet', betSchema, 'Bets');
 
 module.exports = Bet;

@@ -1,29 +1,26 @@
 const getRandomColor = () => {
-  const color = Math.floor(Math.random() * 7);
+  const color = Math.floor(Math.random() * 6);
   switch(color) {
     case 0: {
-      return 'darkBlue'
-    }
-    case 1: {
       return 'lightBlue'
     }
-    case 2: {
+    case 1: {
       return 'gray'
     }
-    case 3: {
+    case 2: {
       return 'orange'
     }
-    case 4: {
+    case 3: {
       return 'yellow'
     }
-    case 5: {
+    case 4: {
       return 'lightGreen'
     }
-    case 6: {
+    case 5: {
       return 'purple'
     }
     default: {
-      return 'darkBlue'
+      return 'lightBlue'
     }
   }
 }

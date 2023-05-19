@@ -8,6 +8,7 @@ const UserVerification = mongoUserDB.model('userVerification', require('../../sc
 
 // Email handler
 const nodemailer = require('nodemailer');
+const generateCode = require('../../utils/generateCode');
 let transporter = nodemailer.createTransport({
   service: "Zoho",
   auth: {
@@ -25,9 +26,7 @@ transporter.verify((error, success) => {
 
 // Send code to login via Email
 const sendVerificationEmail = ({email}, res) => {
-  const uniqueString= uuidv4();
-  bcrypt.hash(uniqueString, 10).then(hashedString => {
-    const loginCode = hashedString.trim().toUpperCase().replace(/[`~!@#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/0123456789]/gi, ''); //remove special character
+  generateCode(4).then(code => {
     UserVerification.find({email}).then(data => {
       if (data.length && (data[0].createdAt + 30000) > Date.now()) {
         res.status(403).json({
@@ -42,12 +41,12 @@ const sendVerificationEmail = ({email}, res) => {
               from: `FriendlyBets <${process.env.AUTH_EMAIL}>`,
               to: email,
               subject: "Login code for FriendlyBets",
-              html: `<h1>${loginCode.slice(-4)}</h1><p>This is the code to complete the registration or login into your account.</p>` + 
+              html: `<h1>${code}</h1><p>This is the code to complete the registration or login into your account.</p>` + 
               `<p>This code <b>expires in 10 minutes.</b></p>`,
             };
             const newVerification = new UserVerification({
               email: email,
-              loginCode: loginCode.slice(-4),
+              loginCode: code,
               createdAt: Date.now(),
               expiresAt: Date.now() + 600000,
             })
@@ -88,12 +87,12 @@ const sendVerificationEmail = ({email}, res) => {
             from: `FriendlyBets <${process.env.AUTH_EMAIL}>`,
             to: email,
             subject: "Login code for FriendlyBets",
-            html: `<h1>${loginCode.slice(-4)}</h1><p>This is the code to complete the registration or login into your FriendlyBets account.</p>` + 
+            html: `<h1>${code}</h1><p>This is the code to complete the registration or login into your FriendlyBets account.</p>` + 
             `<p>This code <b>expires in 10 minutes.</b></p>`,
           };
           const newVerification = new UserVerification({
             email: email,
-            loginCode: loginCode.slice(-4),
+            loginCode: code,
             createdAt: Date.now(),
             expiresAt: Date.now() + 600000,
           })

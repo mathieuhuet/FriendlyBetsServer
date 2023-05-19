@@ -1,6 +1,5 @@
 // Generating codes.
-const bcrypt = require('bcrypt');
-const { v4: uuidv4 } = require('uuid');
+const generateCode = require('../../utils/generateCode');
 
 const mongoUserDB = require('../../config/mongoUser');
 
@@ -23,9 +22,7 @@ transporter.verify((error, success) => {
 
 // Send code to login via Email
 const sendVerificationChangeEmail = ({prevEmail, newEmail}, res) => {
-  const uniqueString= uuidv4();
-  bcrypt.hash(uniqueString, 10).then(hashedString => {
-    const loginCode = hashedString.trim().toUpperCase().replace(/[`~!@#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/0123456789]/gi, ''); //remove special character
+  generateCode(4).then(code => {
     ChangeEmailRequest.find({newEmail}).then(data => {
       if (data.length && (data[0].createdAt + 30000) > Date.now()) {
         res.status(403).json({
@@ -40,13 +37,13 @@ const sendVerificationChangeEmail = ({prevEmail, newEmail}, res) => {
               from: `FriendlyBets <${process.env.AUTH_EMAIL}>`,
               to: newEmail,
               subject: "Login code for FriendlyBets",
-              html: `<h1>${loginCode.slice(-4)}</h1><p>This is the code to complete the change of email of your FriendlyBets account.</p>` + 
+              html: `<h1>${code}</h1><p>This is the code to complete the change of email of your FriendlyBets account.</p>` + 
               `<p>This code <b>expires in 10 minutes.</b></p>`,
             };
             const newVerification = new ChangeEmailRequest({
               prevEmail: prevEmail,
               newEmail: newEmail,
-              loginCode: loginCode.slice(-4),
+              loginCode: code,
               createdAt: Date.now(),
               expiresAt: Date.now() + 600000,
             });
@@ -87,13 +84,13 @@ const sendVerificationChangeEmail = ({prevEmail, newEmail}, res) => {
             from: `FriendlyBets <${process.env.AUTH_EMAIL}>`,
             to: newEmail,
             subject: "Login code for FriendlyBets",
-            html: `<h1>${loginCode.slice(-4)}</h1><p>This is the code to complete the change of email of your FriendlyBets account.</p>` + 
+            html: `<h1>${code}</h1><p>This is the code to complete the change of email of your FriendlyBets account.</p>` + 
             `<p>This code <b>expires in 10 minutes.</b></p>`,
           };
           const newVerification = new ChangeEmailRequest({
             prevEmail: prevEmail,
             newEmail: newEmail,
-            loginCode: loginCode.slice(-4),
+            loginCode: code,
             createdAt: Date.now(),
             expiresAt: Date.now() + 600000,
           });

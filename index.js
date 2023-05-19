@@ -1,9 +1,5 @@
 // Needed for access to variable from .env file
 require('dotenv').config();
-// Our mongoDB Database
-// require('./config/mongoBet');
-// require('./config/mongoUser');
-// require('./config/mongoUserBet');
 // For accepting post form data
 const bodyParser = require('express').json;
 // User API

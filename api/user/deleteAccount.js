@@ -14,11 +14,11 @@ const deleteAccount = (req, res) => {
       data: null
     });
   } else {
-    User.deleteOne({email}).then(data => {
+    User.updateOne({email}, {email: ''}).then(data => {
       res.status(200).json({
         error: false,
         message: "Delete was successful.",
-        data: data.deletedCount
+        data: data.modifiedCount
       })
     }).catch(err => {
       console.log(err);

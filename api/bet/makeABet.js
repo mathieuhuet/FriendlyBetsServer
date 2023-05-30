@@ -8,11 +8,12 @@ const mongoUserBetDB = require('../../config/mongoUserBet');
 
 const makeABet = async (req, res) => {
   try {
-    let {email} = req.user;
-    let {createdAt, bettingEndAt, betResolvedAt, betTitle, betExtraText} = req.body;
+    let {_id} = req.user;
+    let {createdAt, bettingEndAt, betResolvedAt, betTitle, betExtraText, bet, betExplain} = req.body;
     // remove white-space
     betTitle = betTitle.trim();
     betExtraText = betExtraText.trim();
+    betExplain = betExplain.trim();
     if ( betTitle === "") {
       res.status(400).json({
         error: true,
@@ -33,31 +34,30 @@ const makeABet = async (req, res) => {
       // Capitalize first letter of title
       betTitle = betTitle.charAt(0).toUpperCase() + betTitle.slice(1);
       const newBet = new Bet({
-        admin: email,
+        admin: _id.toString(),
         betCode: code,
+        bet,
+        betExplain,
         createdAt,
         bettingEndAt,
         betResolvedAt,
         betTitle,
-        betExtraText
+        betExtraText,
+        participants: [_id.toString()]
       });
       const result = await newBet.save();
-      const UserBet = mongoUserBetDB.model(email, require('../../schemas/UserBet/userBet'))
+      const UserBet = mongoUserBetDB.model(_id.toString(), require('../../schemas/UserBet/userBet'))
       const newUserBet = new UserBet({
         _id: result._id,
-        admin: email,
+        admin: _id.toString(),
         betCode: code,
         joinedAt: result.createdAt,
-        bettingEndAt,
-        betResolvedAt,
-        betTitle,
-        betExtraText
       });
-      const finalResult = await newUserBet.save();
+      const userBet = await newUserBet.save();
       res.status(200).json({
         error: false,
         message: "Bet was created successfully",
-        data: finalResult
+        data: result
       })
     }
   } catch (err) {

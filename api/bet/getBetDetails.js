@@ -1,5 +1,5 @@
 const mongoBetDetailsDB = require('../../config/mongoBetDetails');
-const BetDetails = mongoBetDetailsDB.model('bets', require('../../schemas/BetDetails/betDetails'));
+const BetDetails = mongoBetDetailsDB.model('losers', require('../../schemas/BetDetails/betDetails'));
 
 
 const getBetDetails = async (req, res) => {

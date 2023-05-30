@@ -3,8 +3,11 @@ const Schema = mongoose.Schema;
 
 const userBetSchema = new Schema({
   _id: Schema.Types.ObjectId,
+  admin: String,
+  bet: String,
+  betExplain: String,
   betCode: String,
-  joinedAt: Number,
+  createdAt: Number,
   bettingEndAt: Number,
   betResolvedAt: Number,
   betTitle: String,

@@ -7,7 +7,8 @@ const getUserInfo = (req, res) => {
     email: req.user.email,
     profileIconColor: req.user.profileIconColor,
     profileIconBackgroundColor: req.user.profileIconBackgroundColor,
-    profileIconPolice: req.user.profileIconPolice
+    profileIconPolice: req.user.profileIconPolice,
+    _id: req.user._id
   };
   res.status(200).json({
     error: false,

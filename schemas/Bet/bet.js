@@ -3,7 +3,7 @@ const Schema = mongoose.Schema;
 
 const betSchema = new Schema({
   admin: String,
-  bet: String,
+  betType: String,
   betExplain: String,
   betCode: String,
   createdAt: Number,

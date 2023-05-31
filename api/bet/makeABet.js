@@ -9,7 +9,7 @@ const mongoUserBetDB = require('../../config/mongoUserBet');
 const makeABet = async (req, res) => {
   try {
     let {_id} = req.user;
-    let {createdAt, bettingEndAt, betResolvedAt, betTitle, betExtraText, bet, betExplain} = req.body;
+    let {createdAt, bettingEndAt, betResolvedAt, betTitle, betExtraText, betType, betExplain, userBet} = req.body;
     // remove white-space
     betTitle = betTitle.trim();
     betExtraText = betExtraText.trim();
@@ -36,7 +36,7 @@ const makeABet = async (req, res) => {
       const newBet = new Bet({
         admin: _id.toString(),
         betCode: code,
-        bet,
+        betType,
         betExplain,
         createdAt,
         bettingEndAt,
@@ -52,8 +52,9 @@ const makeABet = async (req, res) => {
         admin: _id.toString(),
         betCode: code,
         joinedAt: result.createdAt,
+        bet: userBet
       });
-      const userBet = await newUserBet.save();
+      await newUserBet.save();
       res.status(200).json({
         error: false,
         message: "Bet was created successfully",

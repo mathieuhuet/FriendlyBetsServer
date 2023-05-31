@@ -3,10 +3,10 @@ const Bet = mongoBetDB.model('bets', require('../../schemas/Bet/bet'));
 
 const mongoUserBetDB = require('../../config/mongoUserBet');
 
-const joinABet = async (req, res) => {
+const checkJoinABet = async (req, res) => {
   try {
     let {_id} = req.user;
-    let {betCode, userBet} = req.body;
+    let {betCode} = req.body;
     const findBet = await Bet.find({betCode})
     if (!findBet.length) {
       res.status(200).json({
@@ -15,6 +15,7 @@ const joinABet = async (req, res) => {
         data: null
       });
     } else if (findBet[0].bettingEndAt < Date.parse(new Date())) {
+      console.log('allo')
       res.status(200).json({
         error: false,
         message: `It is too late to join the bet.\nBet ended on ${new Date(findBet[0].bettingEndAt).toDateString()}\nat ${new Date(findBet[0].bettingEndAt).toLocaleTimeString()}`,
@@ -30,20 +31,10 @@ const joinABet = async (req, res) => {
           data: null
         });
       } else {
-        findBet[0].participants.push(_id.toString());
-        const participants = await Bet.updateOne({betCode}, {participants: findBet[0].participants});
-        const newUserBet = new UserBet({
-          _id: findBet[0]._id,
-          admin: findBet[0].admin,
-          betCode: findBet[0].betCode,
-          joinedAt: Date.parse(new Date()),
-          bet: userBet
-        });
-        const result = await newUserBet.save();
         res.status(200).json({
           error: false,
-          message: "Bet has been added to your bet list. You can find it in 'View bets'.",
-          data: result
+          message: "Bet has been found.",
+          data: findBet[0]
         })
       }
     }
@@ -57,4 +48,4 @@ const joinABet = async (req, res) => {
   }
 };
 
-module.exports = joinABet;
+module.exports = checkJoinABet;

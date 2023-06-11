@@ -1,7 +1,3 @@
-// Generating codes.
-const bcrypt = require('bcrypt');
-const { v4: uuidv4 } = require('uuid');
-
 const mongoUserDB = require('../../config/mongoUser');
 
 const UserVerification = mongoUserDB.model('userVerification', require('../../schemas/User/userVerification'));
@@ -13,7 +9,7 @@ let transporter = nodemailer.createTransport({
   service: "Zoho",
   auth: {
     user: process.env.AUTH_EMAIL || "put the email address you wanna use here",
-    pass: process.env.AUTH_EMAIL_PASSWORD || "put your password here, you should hide it..."
+    pass: process.env.AUTH_EMAIL_PASSWORD || "put your email password here, you should hide it..."
   }
 });
 transporter.verify((error, success) => {

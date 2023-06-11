@@ -15,7 +15,6 @@ const checkJoinABet = async (req, res) => {
         data: null
       });
     } else if (findBet[0].bettingEndAt < Date.parse(new Date())) {
-      console.log('allo')
       res.status(200).json({
         error: false,
         message: `It is too late to join the bet.\nBet ended on ${new Date(findBet[0].bettingEndAt).toDateString()}\nat ${new Date(findBet[0].bettingEndAt).toLocaleTimeString()}`,

@@ -1,5 +1,5 @@
+const secret = require('../../secret');
 const jwt = require('jsonwebtoken');
-const SECRET_KEY = process.env.SECRET_KEY || 'lalala this isnt secure';
 const mongoUserDB = require('../../config/mongoUser');
 
 const UserVerification = mongoUserDB.model('userVerification', require('../../schemas/User/userVerification'));
@@ -32,7 +32,7 @@ const verify = (req, res) => {
         User.find({email}).then(data => {
           if (data.length) {
             const _id = data[0]._id;
-            const accessToken = jwt.sign({ _id }, SECRET_KEY);
+            const accessToken = jwt.sign({ _id }, secret.SECRET_KEY);
             res.status(200).json({
               error: false,
               message: "Verification was successful.",

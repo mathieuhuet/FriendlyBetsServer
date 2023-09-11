@@ -1,3 +1,5 @@
+const secret = require('../../secret');
+
 // Generating codes.
 const generateCode = require('../../utils/generateCode');
 
@@ -10,8 +12,8 @@ const nodemailer = require('nodemailer');
 let transporter = nodemailer.createTransport({
   service: "Zoho",
   auth: {
-    user: process.env.AUTH_EMAIL || "put the email address you wanna use here",
-    pass: process.env.AUTH_EMAIL_PASSWORD || "put your password here, you should hide it..."
+    user: secret.AUTH_EMAIL,
+    pass: secret.AUTH_EMAIL_PASSWORD
   }
 });
 transporter.verify((error, success) => {
@@ -34,7 +36,7 @@ const sendVerificationChangeEmail = ({prevEmail, newEmail}, res) => {
         if (data.length) {
           ChangeEmailRequest.deleteMany({newEmail}).then(() => {
             const mailOptions = {
-              from: `FriendlyBets <${process.env.AUTH_EMAIL}>`,
+              from: `FriendlyBets <${secret.AUTH_EMAIL}>`,
               to: newEmail,
               subject: "Login code for FriendlyBets",
               html: `<h1>${code}</h1><p>This is the code to complete the change of email of your FriendlyBets account.</p>` + 
@@ -81,7 +83,7 @@ const sendVerificationChangeEmail = ({prevEmail, newEmail}, res) => {
           });
         } else {
           const mailOptions = {
-            from: `FriendlyBets <${process.env.AUTH_EMAIL}>`,
+            from: `FriendlyBets <${secret.AUTH_EMAIL}>`,
             to: newEmail,
             subject: "Login code for FriendlyBets",
             html: `<h1>${code}</h1><p>This is the code to complete the change of email of your FriendlyBets account.</p>` + 

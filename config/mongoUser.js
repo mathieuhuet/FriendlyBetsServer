@@ -1,5 +1,6 @@
+const secret = require('../secret');
 const mongoose = require('mongoose');
-const mongoURI = process.env.MONGODB_USER_URI || 'put your mongoDB URI here'
+const mongoURI = secret.MONGODB_USER_URI || 'put your mongoDB URI here'
 
 mongoUserDB = mongoose.createConnection(mongoURI, {
     useNewUrlParser: true, 

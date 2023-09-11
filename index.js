@@ -1,3 +1,4 @@
+const secret = require('./secret');
 // Needed for access to variable from .env file
 require('dotenv').config();
 // For accepting post form data
@@ -13,7 +14,6 @@ const getLocalIp = require('./utils/getLocalIp');
 
 const ip = getLocalIp();
 const app = require('express')();
-const port = process.env.PORT || 5000;
 
 app.use(cors({
   origin: '*',
@@ -23,8 +23,8 @@ app.use(bodyParser());
 app.use('/user', User);
 app.use('/bet', Bet);
 
-app.listen(port, () => {
-  console.log(`Server running on port ${port}`);
+app.listen(secret.PORT, () => {
+  console.log(`Server running on port ${secret.PORT}`);
   console.log(`IP = `)
   console.log(ip);
 })

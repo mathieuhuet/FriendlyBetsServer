@@ -1,3 +1,5 @@
+const secret = require('../../secret');
+
 const mongoUserDB = require('../../config/mongoUser');
 
 const UserVerification = mongoUserDB.model('userVerification', require('../../schemas/User/userVerification'));
@@ -8,15 +10,15 @@ const generateCode = require('../../utils/generateCode');
 let transporter = nodemailer.createTransport({
   service: "Zoho",
   auth: {
-    user: process.env.AUTH_EMAIL || "put the email address you wanna use here",
-    pass: process.env.AUTH_EMAIL_PASSWORD || "put your email password here, you should hide it..."
+    user: secret.AUTH_EMAIL,
+    pass: secret.AUTH_EMAIL_PASSWORD
   }
 });
 transporter.verify((error, success) => {
   if (error) {
     console.log(error);
   } else {
-    console.log("Properly connected using email address : " + process.env.AUTH_EMAIL);
+    console.log("Properly connected using email address : " + secret.AUTH_EMAIL);
   }
 })
 
@@ -34,7 +36,7 @@ const sendVerificationEmail = ({email}, res) => {
         if (data.length) {
           UserVerification.deleteMany({email}).then(() => {
             const mailOptions = {
-              from: `FriendlyBets <${process.env.AUTH_EMAIL}>`,
+              from: `FriendlyBets <${secret.AUTH_EMAIL}>`,
               to: email,
               subject: "Login code for FriendlyBets",
               html: `<h1>${code}</h1><p>This is the code to complete the registration or login into your account.</p>` + 
@@ -80,7 +82,7 @@ const sendVerificationEmail = ({email}, res) => {
           });
         } else {
           const mailOptions = {
-            from: `FriendlyBets <${process.env.AUTH_EMAIL}>`,
+            from: `FriendlyBets <${secret.AUTH_EMAIL}>`,
             to: email,
             subject: "Login code for FriendlyBets",
             html: `<h1>${code}</h1><p>This is the code to complete the registration or login into your FriendlyBets account.</p>` + 

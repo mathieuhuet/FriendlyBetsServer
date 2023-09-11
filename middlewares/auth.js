@@ -1,7 +1,8 @@
+const secret = require('../secret');
 const jwt = require('jsonwebtoken');
 const mongoUserDB = require('../config/mongoUser');
 const User = mongoUserDB.model('users', require('../schemas/User/user'));
-const SECRET_KEY = process.env.SECRET_KEY || 'lalala this isnt secure';
+
 
 const authMiddleware = async (req, res, next) => {
   // extract token from auth headers
@@ -16,7 +17,7 @@ const authMiddleware = async (req, res, next) => {
   const accessToken = authHeaders.split(' ')[1];
   try {
     // verify & decode token payload,
-    const { _id } = jwt.verify(accessToken, SECRET_KEY);
+    const { _id } = jwt.verify(accessToken, secret.SECRET_KEY);
     // attempt to find user object and set to req
     const user = await User.findOne({ _id });
     if (!user) {
